@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 960e23fe1c149d946a8dea634fb8aa17, type: 3}
+  m_Name: Sound Data
+  m_EditorClassIdentifier: 
+  Music:
+  - clip: {fileID: 8300000, guid: 3a9453b9c3f33ca4fa1d72a18833c0ee, type: 3}
+    name: Main
+    volume: 1
+    pitch: 1
+    loop: 1
+    playOnAwake: 1
+    source: {fileID: 0}
+  Sound:
+  - clip: {fileID: 8300000, guid: cea97dd5a012b2c4fb6d89458529c454, type: 3}
+    name: FireBall
+    volume: 1
+    pitch: 1
+    loop: 0
+    playOnAwake: 1
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: c60af1b1d3290ad43b0732f7c1dddc15, type: 3}
+    name: WaterBall
+    volume: 1
+    pitch: 1
+    loop: 0
+    playOnAwake: 1
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 77bb88cd46b6ab44494188d49aa06ea4, type: 3}
+    name: LightingBall
+    volume: 1
+    pitch: 1
+    loop: 0
+    playOnAwake: 1
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 77cb4f97ca2e36e45b6bd37963414666, type: 3}
+    name: Boom
+    volume: 1
+    pitch: 1
+    loop: 0
+    playOnAwake: 1
+    source: {fileID: 0}

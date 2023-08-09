@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - SamplesInfoPanel
+  - Hand
+  - NoHand
+  - LightningBall
+  - JoystickTrigger_Left_2D
+  - JoystickTrigger_Down_2D
+  - JoystickTrigger_Right_2D
+  - JoystickTrigger_Up_2D
+  - WaterBall
+  - FireBall
+  - JoystickBorder_2D
+  - Target
+  - Collider
+  - Pitfall
+  - EnemyBullet
+  - Enemy
+  - EnemyWeapon
+  - Fire
+  - Water
+  - Lightning
+  - Level1
+  - Level2
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - Player
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
