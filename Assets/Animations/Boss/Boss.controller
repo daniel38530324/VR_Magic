@@ -21,7 +21,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 235571e2385c1c7489b3ab552b15e6d6, type: 2}
-  m_Tag: 
+  m_Tag: Attack3
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -99,7 +99,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 608313c32eeec47419b197cc40594494, type: 2}
-  m_Tag: 
+  m_Tag: Impact1
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -149,16 +149,16 @@ AnimatorStateMachine:
     m_Position: {x: 350, y: 240, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7899487787564816685}
-    m_Position: {x: 360, y: 320, z: 0}
+    m_Position: {x: 350, y: 320, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1025001293363253899}
-    m_Position: {x: 360, y: 380, z: 0}
+    m_Position: {x: 350, y: 390, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6144062234012107123}
-    m_Position: {x: 360, y: 460, z: 0}
+    m_Position: {x: 350, y: 460, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5031403638077869167}
-    m_Position: {x: 360, y: 540, z: 0}
+    m_Position: {x: 350, y: 540, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -190,7 +190,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: d2524d004dcec604b9c5bbff3abf6c0d, type: 2}
-  m_Tag: 
+  m_Tag: Attack1
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -216,7 +216,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 1075c47d50fa9054d8882f18761bccf2, type: 2}
-  m_Tag: 
+  m_Tag: Attack2
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -268,7 +268,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 28dfff9d2f1e24a4489362166699592b, type: 2}
-  m_Tag: 
+  m_Tag: PowerUp
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
