@@ -5,12 +5,21 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    public float repelDistance = -3;
+
     [SerializeField] Attack attack;
     [SerializeField] Transform resurrectionPoint;
     [SerializeField] GameObject damage_Image;
+    [SerializeField] int health = 3;
+    [SerializeField] CharacterController characterController;
+    [SerializeField] Boss boss;
     [SerializeField] GameObject[] state_Effect;
     [SerializeField] GameObject[] health_Image;
-    int health = 3;
+
+    float drag = 0.3f;
+    Vector3 dampingVelocity;
+    Vector3 repelDirection;
+    private bool repel;
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +30,16 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(repel)
+        {
+            characterController.Move(repelDirection * repelDistance * Time.deltaTime);
+            repelDirection = Vector3.SmoothDamp(repelDirection, Vector3.zero, ref dampingVelocity, drag);
+            if (repelDirection.sqrMagnitude < 0.2f)
+            {
+                repelDirection = Vector3.zero;
+                repel = false;
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -62,8 +80,19 @@ public class PlayerController : MonoBehaviour
         {
             CheckHealth();
         }
+        if (other.CompareTag("BossWeapon"))
+        {
+            CheckHealth_Boss();
+            repelDirection = (other.transform.position - transform.position);
+            repel = true;
+        }
 
-        if(other.CompareTag("Level1"))
+        if (other.CompareTag("BossPlace"))
+        {
+            boss.SetChase(true);       
+        }
+
+        if (other.CompareTag("Level1"))
         {
             GameManager.instance.ChangeScene("Game 1");
         }
@@ -72,7 +101,14 @@ public class PlayerController : MonoBehaviour
         {
             GameManager.instance.ChangeScene("Game 2");
         }
+    }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.CompareTag("BossPlace"))
+        {
+            boss.SetChase(false);
+        }
     }
 
     void CheckHealth()
@@ -91,6 +127,14 @@ public class PlayerController : MonoBehaviour
         {
             GameManager.instance.ReturnScene();
         }
+    }
+
+    void CheckHealth_Boss()
+    {
+        //health--;
+        StartCoroutine(Damage());
+        
+        
     }
 
     IEnumerator Damage()

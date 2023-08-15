@@ -26,6 +26,8 @@ TagManager:
   - Lightning
   - Level1
   - Level2
+  - BossWeapon
+  - BossPlace
   layers:
   - Default
   - TransparentFX
@@ -34,9 +36,9 @@ TagManager:
   - Water
   - UI
   - Player
-  - 
-  - 
-  - 
+  - Bullet
+  - BossPlane
+  - Boss
   - 
   - 
   - 

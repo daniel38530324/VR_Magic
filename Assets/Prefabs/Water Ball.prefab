@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2995415895990768040}
   - component: {fileID: -6981657422140411421}
   - component: {fileID: 5393352216206168711}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Water Ball
   m_TagString: WaterBall
   m_Icon: {fileID: 0}
@@ -142,7 +142,7 @@ GameObject:
   - component: {fileID: 2995415896444101457}
   - component: {fileID: 2995415896444101487}
   - component: {fileID: 2995415896444101456}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: OuterGlow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5003,7 +5003,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2995415896957915453}
   - component: {fileID: 2995415896957915452}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5133,7 +5133,7 @@ GameObject:
   - component: {fileID: 2995415897435931494}
   - component: {fileID: 2995415897435931492}
   - component: {fileID: 2995415897435931493}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4803367841900808896}
   - component: {fileID: 3770580693971685058}
   - component: {fileID: 6527584377211541181}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4882,7 +4882,7 @@ GameObject:
   - component: {fileID: 7482028379201845422}
   - component: {fileID: 8020476739439509420}
   - component: {fileID: 8732964823201735507}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Lightning aura
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9696,7 +9696,7 @@ GameObject:
   - component: {fileID: 6760533937899900049}
   - component: {fileID: 6760533937899900054}
   - component: {fileID: 6760533937899900055}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14603,7 +14603,7 @@ GameObject:
   - component: {fileID: 6760533938121102271}
   - component: {fileID: 6760533938121102265}
   - component: {fileID: 6760533938121102270}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: OuterGlow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19468,7 +19468,7 @@ GameObject:
   - component: {fileID: 6760533938223883820}
   - component: {fileID: -4458381027789311868}
   - component: {fileID: -8693696677976387745}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Lightning Ball
   m_TagString: LightningBall
   m_Icon: {fileID: 0}
@@ -19596,7 +19596,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6760533938583487163}
   - component: {fileID: 6760533938583487162}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Trail (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

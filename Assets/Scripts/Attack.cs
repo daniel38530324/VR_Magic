@@ -22,6 +22,11 @@ public class Attack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(bullet == null)
+        {
+            stay = false;
+        }
+
         if (stay)
         {
             bullet.transform.position = transform.position;

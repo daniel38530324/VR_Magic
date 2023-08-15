@@ -17,16 +17,22 @@ public enum BossState
 
 public class Boss : MonoBehaviour
 {
-    [SerializeField] private GameObject player, weapon;
+    [SerializeField] private GameObject player, weapon, sword_Fire, sword_Water, sword_Lighting;
     [SerializeField] private float playerChangeRange, playerAttackRange;
-    [SerializeField] Material material;
-    
+    [SerializeField] Material material, floor;
+    [SerializeField] CharacterController characterController;
+    [SerializeField] GameObject[] slash_Effect;
+    [SerializeField] GameObject[] aura_Effect;
+    [SerializeField] GameObject[] attackRange;
 
     private BossState bossState;
     private Animator animator;
+    private float playerDistanceSqr;
+    private float verticalVelocity;
     private NavMeshAgent navMeshAgent;
     private int health = 15;
     private AttackType damageType = AttackType.WaterBall;
+    private bool isChase, attack3State;
 
     // Start is called before the first frame update
     void Start()
@@ -35,17 +41,32 @@ public class Boss : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         UpdateBossState(BossState.Idle);
         material.color = new Color(0.7529412f, 0, 0.09143171f);
+        floor.color = Color.red;
+        navMeshAgent.updatePosition = false;
+        navMeshAgent.updateRotation = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        IsInRange();
-        SetAttack();
-        SetDamage();
-        SetDie();
-        SetNavMeshAgent();
-        SetPowerUp();
+        if (isChase)
+        {
+            IsInRange();
+            SetAttack();
+            SetDamage();
+            SetDie();
+            SetNavMeshAgent();
+            SetPowerUp();
+            SetVerticalVelocity();
+        }
+        else
+        {
+            if(navMeshAgent.enabled == true)
+            {
+                navMeshAgent.ResetPath();
+                navMeshAgent.enabled = false;
+            }
+        }
     }
 
     public void UpdateBossState(BossState newState)
@@ -56,18 +77,29 @@ public class Boss : MonoBehaviour
         {
             case BossState.Idle:
                 animator.CrossFadeInFixedTime("Idle", 0.1f);
+                DisableWeapon();
+                DisableAttackRange();
                 break;
             case BossState.Chase:
                 animator.CrossFadeInFixedTime("Walk", 0.1f);
+                DisableAttackRange();
                 break;
             case BossState.Attack:
                 animator.CrossFadeInFixedTime("Attack1", 0.1f);
+                transform.LookAt(player.transform.position);
+                player.GetComponent<PlayerController>().repelDistance = -1;
+                DisableAttackRange();
                 break;
             case BossState.Attack2:
                 animator.CrossFadeInFixedTime("Attack2", 0.1f);
+                transform.LookAt(player.transform.position);
+                player.GetComponent<PlayerController>().repelDistance = -2;
+                DisableAttackRange();
                 break;
             case BossState.Attack3:
                 animator.CrossFadeInFixedTime("Attack3", 0.1f);
+                transform.LookAt(player.transform.position);
+                player.GetComponent<PlayerController>().repelDistance = -3;
                 break;
             case BossState.Damage:
                 animator.CrossFadeInFixedTime("Impact1", 0.1f);
@@ -83,19 +115,29 @@ public class Boss : MonoBehaviour
 
     void IsInRange()
     {
-        float playerDistanceSqr = (player.transform.position - transform.position).sqrMagnitude;
+        playerDistanceSqr = (player.transform.position - transform.position).sqrMagnitude;
         if ((playerDistanceSqr <= playerChangeRange * playerChangeRange) && (playerDistanceSqr > playerAttackRange * playerAttackRange))
         {
-            if (bossState == BossState.Idle || bossState == BossState.Attack || bossState == BossState.Attack2)
+            if (bossState == BossState.Idle)
             {
-                UpdateBossState(BossState.Chase);
+                int num = Random.Range(0, 3);
+                if (num < 2)
+                {
+                    UpdateBossState(BossState.Chase);
+                }
+                else
+                {
+                    UpdateBossState(BossState.Attack3);
+                }
             }
         }
         else if (playerDistanceSqr <= playerAttackRange * playerAttackRange)
         {
-            if (bossState == BossState.Chase)
+            if (bossState == BossState.Chase || bossState == BossState.Idle)
             {
+                
                 UpdateBossState(BossState.Attack);
+                
             }
         }
         else
@@ -113,27 +155,47 @@ public class Boss : MonoBehaviour
         {
             if (GetNormalizedTime(animator, "Attack1") >= 1)
             {
-
-                UpdateBossState(BossState.Attack2);
-
+                if ((playerDistanceSqr <= playerChangeRange * playerChangeRange) && (playerDistanceSqr > playerAttackRange * playerAttackRange))
+                {
+                    UpdateBossState(BossState.Idle);
+                }
+                else if (playerDistanceSqr <= playerAttackRange * playerAttackRange)
+                {
+                    UpdateBossState(BossState.Attack2);
+                }
             }
         }
         else if (bossState == BossState.Attack2)
         {
             if (GetNormalizedTime(animator, "Attack2") >= 1)
             {
-
-                UpdateBossState(BossState.Attack3);
-
+                if ((playerDistanceSqr <= playerChangeRange * playerChangeRange) && (playerDistanceSqr > playerAttackRange * playerAttackRange))
+                {
+                    UpdateBossState(BossState.Idle);
+                }
+                else if (playerDistanceSqr <= playerAttackRange * playerAttackRange)
+                {
+                    UpdateBossState(BossState.Attack3);
+                }
             }
         }
         else if (bossState == BossState.Attack3)
         {
+            if(attack3State)
+            {
+                Move((transform.forward * 40));
+            } 
+
             if (GetNormalizedTime(animator, "Attack3") >= 1)
             {
-
-                UpdateBossState(BossState.Attack);
-
+                if ((playerDistanceSqr <= playerChangeRange * playerChangeRange) && (playerDistanceSqr > playerAttackRange * playerAttackRange))
+                {
+                    UpdateBossState(BossState.Idle);
+                }
+                else if (playerDistanceSqr <= playerAttackRange * playerAttackRange)
+                {
+                    UpdateBossState(BossState.Attack);
+                }
             }
         }
     }
@@ -142,16 +204,48 @@ public class Boss : MonoBehaviour
     {
         if (bossState == BossState.Chase)
         {
-            navMeshAgent.destination = player.transform.position;
+            transform.LookAt(player.transform.position);
+            navMeshAgent.enabled = true;
+            if (navMeshAgent.isOnNavMesh)
+            {
+                navMeshAgent.destination = player.transform.position;
+                Move(navMeshAgent.desiredVelocity.normalized * 3.5f);
+            }
+            navMeshAgent.velocity = characterController.velocity;
         }
         else if (bossState == BossState.Attack || bossState == BossState.Attack2 || bossState == BossState.Attack3)
         {
-            navMeshAgent.ResetPath();
-            transform.LookAt(player.transform.position);
+            if (navMeshAgent.enabled == true)
+            {
+                navMeshAgent.ResetPath();
+                navMeshAgent.enabled = false;
+            }
+            //transform.LookAt(player.transform.position);
         }
         else
         {
-            navMeshAgent.ResetPath();
+            if (navMeshAgent.enabled == true)
+            {
+                navMeshAgent.ResetPath();
+                navMeshAgent.enabled = false;
+            }
+        }
+    }
+
+    void Move(Vector3 motion)
+    {
+        characterController.Move((motion + (Vector3.up * verticalVelocity))* Time.deltaTime);
+    }
+
+    void SetVerticalVelocity()
+    {
+        if (verticalVelocity < 0f && characterController.isGrounded)
+        {
+            verticalVelocity = Physics.gravity.y * Time.deltaTime;
+        }
+        else
+        {
+            verticalVelocity += Physics.gravity.y * Time.deltaTime;
         }
     }
 
@@ -167,7 +261,6 @@ public class Boss : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log(health);
                     UpdateBossState(BossState.Idle);
                 }
                 
@@ -179,16 +272,32 @@ public class Boss : MonoBehaviour
     {
         if (bossState == BossState.PowerUp)
         {
-            if (GetNormalizedTime(animator, "PowerUp") >= 1)
+            if (GetNormalizedTime(animator, "PowerUp") >= 0.5f && GetNormalizedTime(animator, "PowerUp") < 1)
             {
                 if (health == 10)
                 {
                     material.color = new Color(0, 0.6496316f, 0.7529412f);
+                    sword_Fire.SetActive(false);
+                    sword_Water.SetActive(true);
+                    floor.color = new Color(0, 0.7059705f, 1);
+                    damageType = AttackType.LightningBall;
+                    aura_Effect[0].SetActive(false);
+                    aura_Effect[1].SetActive(true);
                 }
                 else if(health == 5)
                 {
                     material.color = new Color(0.6066381f, 0, 0.7529412f);
+                    sword_Water.SetActive(false);
+                    sword_Lighting.SetActive(true);
+                    floor.color = new Color(0.6134043f, 0, 1);
+                    damageType = AttackType.FireBall;
+                    aura_Effect[1].SetActive(false);
+                    aura_Effect[2].SetActive(true);
                 }
+                
+            }
+            else if (GetNormalizedTime(animator, "PowerUp") >= 1)
+            {
                 UpdateBossState(BossState.Idle);
             }
         }
@@ -225,29 +334,111 @@ public class Boss : MonoBehaviour
 
     }
 
+    public void SetChase(bool chase)
+    {
+        if(chase)
+        {
+            isChase = true;
+        }
+        else
+        {
+            isChase = false;
+            UpdateBossState(BossState.Idle);
+        }
+    }
+
     public void EnableWeapon()
     {
         weapon.SetActive(true);
+        if(health > 10)
+        {
+            slash_Effect[0].SetActive(true);
+        }
+        else if(health <= 10 && health > 5)
+        {
+            slash_Effect[1].SetActive(true);
+        }
+        else if (health <= 5)
+        {
+            slash_Effect[2].SetActive(true);
+        }
     }
 
     public void DisableWeapon()
     {
         weapon.SetActive(false);
+        slash_Effect[0].SetActive(false);
+        slash_Effect[1].SetActive(false);
+        slash_Effect[2].SetActive(false);
     }
+
+    public void EnableAttack3()
+    {
+        attack3State = true;
+        weapon.SetActive(true);
+        if (health > 10)
+        {
+            slash_Effect[0].SetActive(true);
+        }
+        else if (health <= 10 && health > 5)
+        {
+            slash_Effect[1].SetActive(true);
+        }
+        else if (health <= 5)
+        {
+            slash_Effect[2].SetActive(true);
+        }
+    }
+
+    public void DisableAttack3()
+    {
+        attack3State = false;
+        weapon.SetActive(false);
+        slash_Effect[0].SetActive(false);
+        slash_Effect[1].SetActive(false);
+        slash_Effect[2].SetActive(false);
+    }
+
+    public void EnableAttackRange()
+    {
+        attackRange[0].SetActive(true);
+    }
+
+    public void DisableAttackRange()
+    {
+        attackRange[0].SetActive(false);
+    }
+
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(damageType.ToString()))
         {
-            health--;
+            if (bossState == BossState.PowerUp) { return; }
+
+                health--;
             if (health > 0)
             {
-                UpdateBossState(BossState.Damage);
+                if (health == 10 || health == 5)
+                {
+                    UpdateBossState(BossState.Damage);
+                }
+
+                if (bossState == BossState.Attack || bossState == BossState.Attack2 || bossState == BossState.Attack3)
+                {
+                    return;
+                }
+                else
+                {
+                    UpdateBossState(BossState.Damage);
+                }
             }
             else
             {
-                
                 UpdateBossState(BossState.Die);
+                aura_Effect[0].SetActive(false);
+                aura_Effect[1].SetActive(false);
+                aura_Effect[2].SetActive(false);
             }
 
         }

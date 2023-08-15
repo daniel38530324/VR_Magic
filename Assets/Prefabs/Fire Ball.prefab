@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5916387473306852800}
   - component: {fileID: 5916387473306852802}
   - component: {fileID: 5916387473306852801}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: OuterGlow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4814,7 +4814,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5916387473385963492}
   - component: {fileID: 5916387473385963493}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4944,7 +4944,7 @@ GameObject:
   - component: {fileID: 5916387474183002135}
   - component: {fileID: 5916387474183002345}
   - component: {fileID: 5916387474183002344}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9757,7 +9757,7 @@ GameObject:
   - component: {fileID: 5916387474309480011}
   - component: {fileID: 5916387474309480013}
   - component: {fileID: 5916387474309480012}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FireBall2 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14573,7 +14573,7 @@ GameObject:
   - component: {fileID: 5916387475064512826}
   - component: {fileID: -7186551712799929657}
   - component: {fileID: 5515502707645497978}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fire Ball
   m_TagString: FireBall
   m_Icon: {fileID: 0}
@@ -19435,7 +19435,7 @@ GameObject:
   - component: {fileID: 5916387475228865494}
   - component: {fileID: 5916387475228865448}
   - component: {fileID: 5916387475228865495}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FireBall2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
