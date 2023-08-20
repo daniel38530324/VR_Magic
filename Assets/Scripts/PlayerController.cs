@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Boss boss;
     [SerializeField] GameObject[] state_Effect;
     [SerializeField] GameObject[] health_Image;
+    public UnityEvent FailHandle;
 
     float drag = 0.3f;
     Vector3 dampingVelocity;
@@ -68,7 +69,7 @@ public class PlayerController : MonoBehaviour
 
         if(other.CompareTag("Pitfall"))
         {
-            GameManager.instance.ReturnScene();
+            FailHandle.Invoke();
         }
 
         if(other.CompareTag("EnemyBullet"))
@@ -87,6 +88,13 @@ public class PlayerController : MonoBehaviour
             repel = true;
         }
 
+        if (other.CompareTag("Slash"))
+        {
+            CheckHealth_Boss();
+            repelDirection = (other.transform.position - transform.position);
+            repel = true;
+        }
+
         if (other.CompareTag("BossPlace"))
         {
             boss.SetChase(true);       
@@ -94,12 +102,17 @@ public class PlayerController : MonoBehaviour
 
         if (other.CompareTag("Level1"))
         {
-            GameManager.instance.ChangeScene("Game 1");
+            GameManager.instance.ChangeScene("Level1");
         }
 
         if (other.CompareTag("Level2"))
         {
-            GameManager.instance.ChangeScene("Game 2");
+            GameManager.instance.ChangeScene("Level2");
+        }
+
+        if (other.CompareTag("Level3"))
+        {
+            GameManager.instance.ChangeScene("Level3");
         }
     }
 
@@ -115,6 +128,8 @@ public class PlayerController : MonoBehaviour
     {
         health--;
         StartCoroutine(Damage());
+        AudioManager.Instance.PlaySound("Damage");
+
         if (health == 2)
         {
             health_Image[0].SetActive(false);
@@ -125,16 +140,37 @@ public class PlayerController : MonoBehaviour
         }
         if(health <= 0)
         {
-            GameManager.instance.ReturnScene();
+            FailHandle.Invoke();
         }
     }
 
     void CheckHealth_Boss()
     {
-        //health--;
+        health--;
         StartCoroutine(Damage());
-        
-        
+        AudioManager.Instance.PlaySound("Damage");
+
+        if (health == 4)
+        {
+            health_Image[0].SetActive(false);
+        }
+        else if(health == 3)
+        {
+            health_Image[1].SetActive(false);
+        }
+        else if(health == 2)
+        {
+            health_Image[2].SetActive(false);
+        }
+        else if (health == 1)
+        {
+            health_Image[3].SetActive(false);
+        }
+        if (health <= 0)
+        {
+            FailHandle.Invoke();
+        }
+
     }
 
     IEnumerator Damage()

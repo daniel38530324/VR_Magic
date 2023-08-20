@@ -10,6 +10,7 @@ public enum BossState
     Attack,
     Attack2,
     Attack3,
+    Attack4,
     Damage,
     PowerUp,
     Die,
@@ -17,13 +18,15 @@ public enum BossState
 
 public class Boss : MonoBehaviour
 {
-    [SerializeField] private GameObject player, weapon, sword_Fire, sword_Water, sword_Lighting;
+    [SerializeField] Level3Manager level3Manager;
+    [SerializeField] private GameObject player, weapon, sword_Fire, sword_Water, sword_Lighting, slashPoint;
     [SerializeField] private float playerChangeRange, playerAttackRange;
     [SerializeField] Material material, floor;
     [SerializeField] CharacterController characterController;
     [SerializeField] GameObject[] slash_Effect;
     [SerializeField] GameObject[] aura_Effect;
     [SerializeField] GameObject[] attackRange;
+    [SerializeField] GameObject[] slashShock_Effect;
 
     private BossState bossState;
     private Animator animator;
@@ -54,9 +57,7 @@ public class Boss : MonoBehaviour
             IsInRange();
             SetAttack();
             SetDamage();
-            SetDie();
             SetNavMeshAgent();
-            SetPowerUp();
             SetVerticalVelocity();
         }
         else
@@ -67,6 +68,9 @@ public class Boss : MonoBehaviour
                 navMeshAgent.enabled = false;
             }
         }
+        
+        SetPowerUp();
+        SetDie();
     }
 
     public void UpdateBossState(BossState newState)
@@ -101,11 +105,17 @@ public class Boss : MonoBehaviour
                 transform.LookAt(player.transform.position);
                 player.GetComponent<PlayerController>().repelDistance = -3;
                 break;
+            case BossState.Attack4:
+                transform.LookAt(player.transform.position);
+                animator.CrossFadeInFixedTime("Attack4", 0.1f);
+                player.GetComponent<PlayerController>().repelDistance = -3;
+                break;
             case BossState.Damage:
                 animator.CrossFadeInFixedTime("Impact1", 0.1f);
                 break;
             case BossState.PowerUp:
                 animator.CrossFadeInFixedTime("PowerUp", 0.1f);
+                DisableAttackRange();
                 break;
             case BossState.Die:
                 animator.CrossFadeInFixedTime("Death", 0.1f);
@@ -121,13 +131,17 @@ public class Boss : MonoBehaviour
             if (bossState == BossState.Idle)
             {
                 int num = Random.Range(0, 3);
-                if (num < 2)
+                if (num == 0)
                 {
                     UpdateBossState(BossState.Chase);
                 }
-                else
+                else if(num == 1)
                 {
                     UpdateBossState(BossState.Attack3);
+                }
+                else if (num == 2)
+                {
+                    UpdateBossState(BossState.Attack4);
                 }
             }
         }
@@ -187,6 +201,20 @@ public class Boss : MonoBehaviour
             } 
 
             if (GetNormalizedTime(animator, "Attack3") >= 1)
+            {
+                if ((playerDistanceSqr <= playerChangeRange * playerChangeRange) && (playerDistanceSqr > playerAttackRange * playerAttackRange))
+                {
+                    UpdateBossState(BossState.Idle);
+                }
+                else if (playerDistanceSqr <= playerAttackRange * playerAttackRange)
+                {
+                    UpdateBossState(BossState.Attack);
+                }
+            }
+        }
+        else if (bossState == BossState.Attack4)
+        {
+            if (GetNormalizedTime(animator, "Attack4") >= 1)
             {
                 if ((playerDistanceSqr <= playerChangeRange * playerChangeRange) && (playerDistanceSqr > playerAttackRange * playerAttackRange))
                 {
@@ -309,7 +337,8 @@ public class Boss : MonoBehaviour
         {
             if (GetNormalizedTime(animator, "Die") >= 1)
             {
-                Destroy(gameObject, 1);
+                level3Manager.Success();
+                Destroy(gameObject, 5);
             }
         }
     }
@@ -343,6 +372,8 @@ public class Boss : MonoBehaviour
         else
         {
             isChase = false;
+            if(bossState == BossState.PowerUp) { return; }
+
             UpdateBossState(BossState.Idle);
         }
     }
@@ -374,6 +405,7 @@ public class Boss : MonoBehaviour
 
     public void EnableAttack3()
     {
+        AudioManager.Instance.PlaySound("Attack3");
         attack3State = true;
         weapon.SetActive(true);
         if (health > 10)
@@ -409,6 +441,23 @@ public class Boss : MonoBehaviour
         attackRange[0].SetActive(false);
     }
 
+    public void EnableSlash()
+    {
+        AudioManager.Instance.PlaySound("Attack4");
+        if (health > 10)
+        {
+            Instantiate(slashShock_Effect[0], slashPoint.transform.position, slashPoint.transform.rotation);
+        }
+        else if (health <= 10 && health > 5)
+        {
+            Instantiate(slashShock_Effect[1], slashPoint.transform.position, slashPoint.transform.rotation);
+        }
+        else if (health <= 5)
+        {
+            Instantiate(slashShock_Effect[2], slashPoint.transform.position, slashPoint.transform.rotation);
+        }
+    }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -424,7 +473,7 @@ public class Boss : MonoBehaviour
                     UpdateBossState(BossState.Damage);
                 }
 
-                if (bossState == BossState.Attack || bossState == BossState.Attack2 || bossState == BossState.Attack3)
+                if (bossState == BossState.Attack || bossState == BossState.Attack2 || bossState == BossState.Attack3 || bossState == BossState.Attack4)
                 {
                     return;
                 }

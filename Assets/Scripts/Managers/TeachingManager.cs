@@ -20,8 +20,10 @@ public class TeachingManager : MonoBehaviour
     [SerializeField] GameObject[] supplyPoints;
     [SerializeField] GameObject[] targets;
     [SerializeField] Animator doorAnimator;
+    [SerializeField] GameObject success_UI, fail_UI;
+    [SerializeField] Animator result_Animator;
 
-
+    bool success, fail;
     TeachingState teachingState;
 
     private void Awake()
@@ -31,8 +33,24 @@ public class TeachingManager : MonoBehaviour
             Instantiate(gameManager);
         }
 
-        AudioManager.Instance.PlayMusic("Main");
         UpdateTeachingState(TeachingState.Part1);
+    }
+
+    private void Start()
+    {
+        AudioManager.Instance.PlayMusic("Main");
+    }
+
+    private void Update()
+    {
+        if (success)
+        {
+            //SetSuccess();
+        }
+        else if (fail)
+        {
+            SetFail();
+        }
     }
 
     public void UpdateTeachingState(TeachingState newState)
@@ -57,10 +75,68 @@ public class TeachingManager : MonoBehaviour
                 {
                     item.SetActive(true);
                 }
+                Success();
                 break;
             case TeachingState.Part3:
                 doorAnimator.SetTrigger("Open");
+                Success();
                 break;
         }
+    }
+
+    public void Success()
+    {
+        success_UI.SetActive(true);
+        result_Animator.CrossFadeInFixedTime("Success", 0.1f);
+        AudioManager.Instance.PlaySound("Success");
+        success = true;
+        fail = false;
+    }
+
+    public void Fail()
+    {
+        fail_UI.SetActive(true);
+        result_Animator.CrossFadeInFixedTime("Fail", 0.1f);
+        AudioManager.Instance.Stop();
+        AudioManager.Instance.PlaySound("Fail");
+        success = false;
+        fail = true;
+    }
+
+    void SetSuccess()
+    {
+        if (GetNormalizedTime(result_Animator, "Success") >= 1)
+        {
+            success_UI.SetActive(false);
+            success = false;
+        }
+    }
+
+    void SetFail()
+    {
+        if (GetNormalizedTime(result_Animator, "Fail") >= 1)
+        {
+            GameManager.instance.ReturnScene();
+        }
+    }
+
+    float GetNormalizedTime(Animator animator, string tag)
+    {
+        AnimatorStateInfo currentInfo = animator.GetCurrentAnimatorStateInfo(0);
+        AnimatorStateInfo nextInfo = animator.GetNextAnimatorStateInfo(0);
+
+        if (animator.IsInTransition(0) && nextInfo.IsTag(tag))
+        {
+            return nextInfo.normalizedTime;
+        }
+        else if (!animator.IsInTransition(0) && currentInfo.IsTag(tag))
+        {
+            return currentInfo.normalizedTime;
+        }
+        else
+        {
+            return 0;
+        }
+
     }
 }

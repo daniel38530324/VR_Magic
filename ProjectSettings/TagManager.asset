@@ -28,6 +28,8 @@ TagManager:
   - Level2
   - BossWeapon
   - BossPlace
+  - Slash
+  - Level3
   layers:
   - Default
   - TransparentFX
