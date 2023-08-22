@@ -30,6 +30,8 @@ TagManager:
   - BossPlace
   - Slash
   - Level3
+  - Finger
+  - NoFinger
   layers:
   - Default
   - TransparentFX

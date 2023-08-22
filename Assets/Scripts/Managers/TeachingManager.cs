@@ -23,7 +23,7 @@ public class TeachingManager : MonoBehaviour
     [SerializeField] GameObject success_UI, fail_UI;
     [SerializeField] Animator result_Animator;
 
-    bool success, fail;
+    bool success, fail, successCount = true;
     TeachingState teachingState;
 
     private void Awake()
@@ -80,12 +80,14 @@ public class TeachingManager : MonoBehaviour
             case TeachingState.Part3:
                 doorAnimator.SetTrigger("Open");
                 Success();
+                successCount = false;
                 break;
         }
     }
 
     public void Success()
     {
+        if (!successCount) { return; }
         success_UI.SetActive(true);
         result_Animator.CrossFadeInFixedTime("Success", 0.1f);
         AudioManager.Instance.PlaySound("Success");

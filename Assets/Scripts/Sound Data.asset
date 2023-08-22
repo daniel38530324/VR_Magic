@@ -15,14 +15,14 @@ MonoBehaviour:
   Music:
   - clip: {fileID: 8300000, guid: 3a9453b9c3f33ca4fa1d72a18833c0ee, type: 3}
     name: Main
-    volume: 1
+    volume: 0.6
     pitch: 1
     loop: 1
     playOnAwake: 1
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 0bb212b5a8f96034aab9442618c04099, type: 3}
     name: Boss
-    volume: 1
+    volume: 0.4
     pitch: 1
     loop: 1
     playOnAwake: 1
@@ -51,7 +51,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 77cb4f97ca2e36e45b6bd37963414666, type: 3}
     name: Boom
-    volume: 1
+    volume: 0.7
     pitch: 1
     loop: 0
     playOnAwake: 1

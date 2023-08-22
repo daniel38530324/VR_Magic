@@ -119,6 +119,7 @@ public class Boss : MonoBehaviour
                 break;
             case BossState.Die:
                 animator.CrossFadeInFixedTime("Death", 0.1f);
+                DisableAttackRange();
                 break;
         }
     }
@@ -130,16 +131,16 @@ public class Boss : MonoBehaviour
         {
             if (bossState == BossState.Idle)
             {
-                int num = Random.Range(0, 3);
-                if (num == 0)
+                int num = Random.Range(0, 4);
+                if (num < 2)
                 {
                     UpdateBossState(BossState.Chase);
                 }
-                else if(num == 1)
+                else if(num == 2)
                 {
                     UpdateBossState(BossState.Attack3);
                 }
-                else if (num == 2)
+                else if (num == 3)
                 {
                     UpdateBossState(BossState.Attack4);
                 }

@@ -32,7 +32,7 @@ public class Level1Manager : MonoBehaviour
     {
         if (success)
         {
-            SetSuccess();
+            //SetSuccess();
         }
         else if (fail)
         {

@@ -11,6 +11,7 @@ public class Level2Manager : MonoBehaviour
     [SerializeField] Animator doorAnimator;
     [SerializeField] GameObject success_UI, fail_UI;
     [SerializeField] Animator result_Animator;
+    [SerializeField] CharacterController characterController;
 
     bool success, fail;
     int desyoryNum = 0;
@@ -32,7 +33,7 @@ public class Level2Manager : MonoBehaviour
     {
         if (success)
         {
-            SetSuccess();
+            //SetSuccess();
         }
         else if (fail)
         {
@@ -65,6 +66,7 @@ public class Level2Manager : MonoBehaviour
         result_Animator.CrossFadeInFixedTime("Fail", 0.1f);
         AudioManager.Instance.Stop();
         AudioManager.Instance.PlaySound("Fail");
+        characterController.enabled = false;
         success = false;
         fail = true;
     }

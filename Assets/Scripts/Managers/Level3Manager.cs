@@ -10,8 +10,9 @@ public class Level3Manager : MonoBehaviour
     [Space(20)]
     [SerializeField] GameObject success_UI, fail_UI;
     [SerializeField] Animator result_Animator;
+    [SerializeField] CharacterController characterController;
 
-    bool success, fail;
+    bool success, fail, successCount = true;
 
     private void Awake()
     {
@@ -40,6 +41,8 @@ public class Level3Manager : MonoBehaviour
 
     public void Success()
     {
+        if (!successCount) { return; }
+        successCount = false;
         success_UI.SetActive(true);
         result_Animator.CrossFadeInFixedTime("Success", 0.1f);
         AudioManager.Instance.PlaySound("Success");
@@ -53,6 +56,7 @@ public class Level3Manager : MonoBehaviour
         result_Animator.CrossFadeInFixedTime("Fail", 0.1f);
         AudioManager.Instance.Stop();
         AudioManager.Instance.PlaySound("Fail");
+        characterController.enabled = false;
         success = false;
         fail = true;
     }
