@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Slash_Boss : MonoBehaviour
 {
-    [SerializeField] float speed = -5;
+    [SerializeField] float speed = -6;
     // Start is called before the first frame update
     void Start()
     {

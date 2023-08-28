@@ -19,7 +19,7 @@ public enum BossState
 public class Boss : MonoBehaviour
 {
     [SerializeField] Level3Manager level3Manager;
-    [SerializeField] private GameObject player, weapon, sword_Fire, sword_Water, sword_Lighting, slashPoint;
+    [SerializeField] private GameObject player, weapon, weapon2, sword_Fire, sword_Water, sword_Lighting, slashPoint;
     [SerializeField] private float playerChangeRange, playerAttackRange;
     [SerializeField] Material material, floor;
     [SerializeField] CharacterController characterController;
@@ -170,11 +170,11 @@ public class Boss : MonoBehaviour
         {
             if (GetNormalizedTime(animator, "Attack1") >= 1)
             {
-                if ((playerDistanceSqr <= playerChangeRange * playerChangeRange) && (playerDistanceSqr > playerAttackRange * playerAttackRange))
+                if ((playerDistanceSqr <= playerChangeRange * playerChangeRange) && (playerDistanceSqr > 5 * 5))
                 {
                     UpdateBossState(BossState.Idle);
                 }
-                else if (playerDistanceSqr <= playerAttackRange * playerAttackRange)
+                else if (playerDistanceSqr <= 5 * 5)
                 {
                     UpdateBossState(BossState.Attack2);
                 }
@@ -381,7 +381,6 @@ public class Boss : MonoBehaviour
 
     public void EnableWeapon()
     {
-        weapon.SetActive(true);
         if(health > 10)
         {
             slash_Effect[0].SetActive(true);
@@ -394,11 +393,19 @@ public class Boss : MonoBehaviour
         {
             slash_Effect[2].SetActive(true);
         }
+
+        if (bossState == BossState.Attack2)
+        {
+            weapon2.SetActive(true);
+            return;
+        }
+        weapon.SetActive(true);
     }
 
     public void DisableWeapon()
     {
         weapon.SetActive(false);
+        weapon2.SetActive(false);
         slash_Effect[0].SetActive(false);
         slash_Effect[1].SetActive(false);
         slash_Effect[2].SetActive(false);
