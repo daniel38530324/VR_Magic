@@ -12,7 +12,7 @@ public class Level3Manager : MonoBehaviour
     [SerializeField] Animator result_Animator;
     [SerializeField] CharacterController characterController;
 
-    bool success, fail, successCount = true;
+    bool success, fail, successCount = true, repeatCount = true;
 
     private void Awake()
     {
@@ -66,6 +66,12 @@ public class Level3Manager : MonoBehaviour
         if (GetNormalizedTime(result_Animator, "Success") >= 1)
         {
             success_UI.SetActive(false);
+            if(repeatCount)
+            {
+                repeatCount = false;
+                StartCoroutine(ChangeToMainPage());
+            }
+            
         }
     }
 
@@ -95,5 +101,11 @@ public class Level3Manager : MonoBehaviour
             return 0;
         }
 
+    }
+
+    IEnumerator ChangeToMainPage()
+    {
+        yield return new WaitForSeconds(3);
+        GameManager.instance.ChangeScene("MainPage");
     }
 }
