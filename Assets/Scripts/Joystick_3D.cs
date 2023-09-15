@@ -6,11 +6,12 @@ using UnityEngine.Events;
 public class Joystick_3D : MonoBehaviour
 {
     public Transform hand;
+    public bool follow;
 
     [SerializeField] float forwardBackwardTilt = 0;
     [SerializeField] float sideToSideTilt = 0;
     [SerializeField] UnityEvent left, right, up, down, leftExit, rightExit, upExit, downExit;
-    bool follow;
+
     // Start is called before the first frame update
     void Start()
     {

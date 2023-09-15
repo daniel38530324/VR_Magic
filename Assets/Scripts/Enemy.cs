@@ -199,6 +199,8 @@ public class Enemy : MonoBehaviour
     {
         if(other.CompareTag(damageType.ToString()))
         {
+            if (enemyState == EnemyState.Damage || enemyState == EnemyState.Die) { return; }
+
             health--;
             if (health > 0)
             {

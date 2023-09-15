@@ -22,6 +22,7 @@ public class TeachingManager : MonoBehaviour
     [SerializeField] Animator doorAnimator;
     [SerializeField] GameObject success_UI, fail_UI;
     [SerializeField] Animator result_Animator;
+    [SerializeField] BoxCollider doorTrigger;
 
     bool success, fail, successCount = true;
     TeachingState teachingState;
@@ -81,6 +82,7 @@ public class TeachingManager : MonoBehaviour
                 doorAnimator.SetTrigger("Open");
                 Success();
                 successCount = false;
+                doorTrigger.enabled = true;
                 break;
         }
     }

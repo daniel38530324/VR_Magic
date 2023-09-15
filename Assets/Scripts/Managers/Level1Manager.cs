@@ -11,6 +11,7 @@ public class Level1Manager : MonoBehaviour
     [SerializeField] Animator doorAnimator;
     [SerializeField] GameObject success_UI, fail_UI;
     [SerializeField] Animator result_Animator;
+    [SerializeField] BoxCollider doorTrigger;
 
     bool success, fail;
     int desyoryNum = 0;
@@ -47,6 +48,7 @@ public class Level1Manager : MonoBehaviour
         {
             doorAnimator.SetTrigger("Open");
             Success();
+            doorTrigger.enabled = true;
         }
     }
 

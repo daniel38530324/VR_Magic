@@ -131,16 +131,16 @@ public class Boss : MonoBehaviour
         {
             if (bossState == BossState.Idle)
             {
-                int num = Random.Range(0, 4);
-                if (num < 2)
+                int num = Random.Range(0, 5);
+                if (num < 3)
                 {
                     UpdateBossState(BossState.Chase);
                 }
-                else if(num == 2)
+                else if(num == 3)
                 {
                     UpdateBossState(BossState.Attack3);
                 }
-                else if (num == 3)
+                else if (num == 4)
                 {
                     UpdateBossState(BossState.Attack4);
                 }
@@ -373,7 +373,7 @@ public class Boss : MonoBehaviour
         else
         {
             isChase = false;
-            if(bossState == BossState.PowerUp) { return; }
+            if(bossState == BossState.PowerUp || bossState == BossState.Damage || bossState == BossState.Die) { return; }
 
             UpdateBossState(BossState.Idle);
         }
@@ -471,7 +471,7 @@ public class Boss : MonoBehaviour
     {
         if (other.CompareTag(damageType.ToString()))
         {
-            if (bossState == BossState.PowerUp) { return; }
+            if (bossState == BossState.PowerUp || bossState == BossState.Die) { return; }
 
                 health--;
             if (health > 0)

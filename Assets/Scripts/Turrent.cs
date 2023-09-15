@@ -25,10 +25,11 @@ public class Turrent : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(lookPos);
 
             timer += Time.deltaTime;
-            if(timer >= 3)
+            if(timer >= 1.5f)
             {
                 timer = 0;
                 Instantiate(enemyBullet, spawnPoint.position, spawnPoint.rotation);
+                AudioManager.Instance.PlaySound("Laser");
             }
         }
 

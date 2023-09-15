@@ -12,6 +12,7 @@ public class Level2Manager : MonoBehaviour
     [SerializeField] GameObject success_UI, fail_UI;
     [SerializeField] Animator result_Animator;
     [SerializeField] CharacterController characterController;
+    [SerializeField] BoxCollider doorTrigger;
 
     bool success, fail;
     int desyoryNum = 0;
@@ -48,6 +49,7 @@ public class Level2Manager : MonoBehaviour
         {
             doorAnimator.SetTrigger("Open");
             Success();
+            doorTrigger.enabled = true;
         }
     }
 

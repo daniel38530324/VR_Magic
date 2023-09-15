@@ -35757,6 +35757,10 @@ PrefabInstance:
       value: OVRCameraRig
       objectReference: {fileID: 0}
     - target: {fileID: 5465258134050380413, guid: d1e328ab3661a0d4e842dd33fe424246, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5465258134050380413, guid: d1e328ab3661a0d4e842dd33fe424246, type: 3}
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
