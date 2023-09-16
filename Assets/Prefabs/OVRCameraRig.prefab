@@ -1637,7 +1637,7 @@ MonoBehaviour:
   startPos: {fileID: 8126911025079409568}
   camera: {fileID: 5465258134050473563}
   characterController: {fileID: 5465258134050348224}
-  speed: 2.5
+  speed: 2.3
 --- !u!1 &5422481312028491673
 GameObject:
   m_ObjectHideFlags: 0
@@ -1751,7 +1751,7 @@ MonoBehaviour:
   strartPos: {fileID: 5851593706450493945}
   camera: {fileID: 5465258134050473563}
   characterController: {fileID: 5465258134050348224}
-  speed: 2.5
+  speed: 2.3
 --- !u!1 &5465258133763643711
 GameObject:
   m_ObjectHideFlags: 0

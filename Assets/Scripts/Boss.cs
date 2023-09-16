@@ -131,18 +131,22 @@ public class Boss : MonoBehaviour
         {
             if (bossState == BossState.Idle)
             {
-                int num = Random.Range(0, 5);
-                if (num < 3)
+                int num = Random.Range(0, 7);
+                if (num < 4)
                 {
                     UpdateBossState(BossState.Chase);
                 }
-                else if(num == 3)
+                else if(num >= 4)
                 {
-                    UpdateBossState(BossState.Attack3);
-                }
-                else if (num == 4)
-                {
-                    UpdateBossState(BossState.Attack4);
+                    int num2 = Random.Range(0, 2);
+                    if(num2 == 0)
+                    {
+                        UpdateBossState(BossState.Attack3);
+                    }
+                    else
+                    {
+                        UpdateBossState(BossState.Attack4);
+                    }  
                 }
             }
         }
