@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -15,6 +16,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Boss boss;
     [SerializeField] GameObject[] state_Effect;
     [SerializeField] GameObject[] health_Image;
+    [Header("¦å¶q")]
+    [SerializeField] Slider hpSlider;
+    [SerializeField] Text hpText;
+    [SerializeField] Image hpImage;
+    [SerializeField] Sprite[] hpSprites;
+
     public UnityEvent FailHandle;
 
     float drag = 0.3f;
@@ -25,7 +32,13 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (hpSlider)
+        {
+            hpSlider.value = health;
+            hpImage.sprite = hpSprites[0];
+            hpText.color = new Color(0.8980393f, 0.8980393f, 0.8980393f);
+            hpImage.color = new Color(0.8490566f, 0.8490566f, 0.8490566f);
+        }
     }
 
     // Update is called once per frame
@@ -51,6 +64,12 @@ public class PlayerController : MonoBehaviour
             state_Effect[0].SetActive(true);
             state_Effect[1].SetActive(false);
             state_Effect[2].SetActive(false);
+            if(hpSlider)
+            {
+                hpImage.sprite = hpSprites[1];
+                hpText.color = new Color(0.9960785f, 0.3921569f, 0.1294118f);
+                hpImage.color = new Color(1, 1, 1);
+            }
         }
         else if(other.CompareTag("Water"))
         {
@@ -58,6 +77,12 @@ public class PlayerController : MonoBehaviour
             state_Effect[0].SetActive(false);
             state_Effect[1].SetActive(true);
             state_Effect[2].SetActive(false);
+            if (hpSlider)
+            {
+                hpImage.sprite = hpSprites[2];
+                hpText.color = new Color(0.4470589f, 0.9960785f, 0.9960785f);
+                hpImage.color = new Color(1, 1, 1);
+            }
         }
         else if(other.CompareTag("Lightning"))
         {
@@ -65,6 +90,12 @@ public class PlayerController : MonoBehaviour
             state_Effect[0].SetActive(false);
             state_Effect[1].SetActive(false);
             state_Effect[2].SetActive(true);
+            if (hpSlider)
+            {
+                hpImage.sprite = hpSprites[3];
+                hpText.color = new Color(0.9960785f, 0.4980392f, 0.9960785f);
+                hpImage.color = new Color(1, 1, 1);
+            }
         }
 
         if(other.CompareTag("Pitfall"))
@@ -129,7 +160,9 @@ public class PlayerController : MonoBehaviour
         health--;
         StartCoroutine(Damage());
         AudioManager.Instance.PlaySound("Damage");
+        hpSlider.value = health;
 
+        /*
         if (health == 2)
         {
             health_Image[0].SetActive(false);
@@ -137,8 +170,8 @@ public class PlayerController : MonoBehaviour
         else if(health == 1)
         {
             health_Image[1].SetActive(false);
-        }
-        if(health <= 0)
+        }*/
+        if (health <= 0)
         {
             FailHandle.Invoke();
         }
@@ -150,6 +183,9 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(Damage());
         AudioManager.Instance.PlaySound("Damage");
 
+        hpSlider.value = health;
+
+        /*
         if (health == 4)
         {
             health_Image[0].SetActive(false);
@@ -165,12 +201,12 @@ public class PlayerController : MonoBehaviour
         else if (health == 1)
         {
             health_Image[3].SetActive(false);
-        }
+        }*/
         if (health <= 0)
         {
             FailHandle.Invoke();
         }
-
+        
     }
 
     IEnumerator Damage()

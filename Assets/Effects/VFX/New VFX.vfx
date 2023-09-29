@@ -2369,7 +2369,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614677}
   - {fileID: 8926484042661614678}
   m_OutputSlots: []
-  m_Disabled: 0
+  m_Disabled: 1
   m_customType:
     m_SerializableType: UnityEngine.VFX.SpawnOverDistance, Unity.VisualEffectGraph.Runtime,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -5140,7 +5140,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614842}
   - {fileID: 8926484042661614824}
   dataType: 0
-  capacity: 250
+  capacity: 125
   stripCapacity: 16
   particlePerStripCount: 16
   m_Space: 1

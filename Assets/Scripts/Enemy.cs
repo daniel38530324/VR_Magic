@@ -19,6 +19,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject player, weapon;
     [SerializeField] float playerChangeRange, playerAttackRange;
     [SerializeField] AttackType damageType = AttackType.FireBall;
+    [SerializeField] GameObject hint_UI;
 
     private EnemyState enemyState;
     private Animator animator;
@@ -213,5 +214,17 @@ public class Enemy : MonoBehaviour
             }
             
         }
+        else if (other.CompareTag("FireBall") || other.CompareTag("WaterBall") || other.CompareTag("LightningBall"))
+        {
+            if(hint_UI.activeInHierarchy) { return; }
+            StartCoroutine(SetHint());
+        }
+    }
+
+    IEnumerator SetHint()
+    {
+        hint_UI.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        hint_UI.SetActive(false);
     }
 }

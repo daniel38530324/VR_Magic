@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public enum BossState
 {
@@ -23,10 +24,16 @@ public class Boss : MonoBehaviour
     [SerializeField] private float playerChangeRange, playerAttackRange;
     [SerializeField] Material material, floor;
     [SerializeField] CharacterController characterController;
+    [SerializeField] GameObject hint_UI;
     [SerializeField] GameObject[] slash_Effect;
     [SerializeField] GameObject[] aura_Effect;
     [SerializeField] GameObject[] attackRange;
     [SerializeField] GameObject[] slashShock_Effect;
+    [Header("¦å¶q")]
+    [SerializeField] Slider hpSlider;
+    [SerializeField] Text hpText;
+    [SerializeField] Image hpImage;
+    [SerializeField] Sprite[] hpSprites;
 
     private BossState bossState;
     private Animator animator;
@@ -47,6 +54,10 @@ public class Boss : MonoBehaviour
         floor.color = Color.red;
         navMeshAgent.updatePosition = false;
         navMeshAgent.updateRotation = false;
+
+        hpSlider.value = health;
+        hpImage.sprite = hpSprites[0];
+        hpText.color = new Color(0.9960785f, 0.3921569f, 0.1294118f);
     }
 
     // Update is called once per frame
@@ -55,8 +66,7 @@ public class Boss : MonoBehaviour
         if (isChase)
         {
             IsInRange();
-            SetAttack();
-            SetDamage();
+            SetAttack();          
             SetNavMeshAgent();
             SetVerticalVelocity();
         }
@@ -68,7 +78,8 @@ public class Boss : MonoBehaviour
                 navMeshAgent.enabled = false;
             }
         }
-        
+
+        SetDamage();
         SetPowerUp();
         SetDie();
     }
@@ -316,6 +327,8 @@ public class Boss : MonoBehaviour
                     damageType = AttackType.LightningBall;
                     aura_Effect[0].SetActive(false);
                     aura_Effect[1].SetActive(true);
+                    hpImage.sprite = hpSprites[1];
+                    hpText.color = new Color(0.4470589f, 0.9960785f, 0.9960785f);
                 }
                 else if(health == 5)
                 {
@@ -326,6 +339,8 @@ public class Boss : MonoBehaviour
                     damageType = AttackType.FireBall;
                     aura_Effect[1].SetActive(false);
                     aura_Effect[2].SetActive(true);
+                    hpImage.sprite = hpSprites[2];
+                    hpText.color = new Color(0.9960785f, 0.4980392f, 0.9960785f);
                 }
                 
             }
@@ -477,7 +492,9 @@ public class Boss : MonoBehaviour
         {
             if (bossState == BossState.PowerUp || bossState == BossState.Die) { return; }
 
-                health--;
+            health--;
+            hpSlider.value = health;
+
             if (health > 0)
             {
                 if (health == 10 || health == 5)
@@ -503,5 +520,17 @@ public class Boss : MonoBehaviour
             }
 
         }
+        else if (other.CompareTag("FireBall") || other.CompareTag("WaterBall") || other.CompareTag("LightningBall"))
+        {
+            if (hint_UI.activeInHierarchy) { return; }
+            StartCoroutine(SetHint());
+        }
+    }
+
+    IEnumerator SetHint()
+    {
+        hint_UI.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        hint_UI.SetActive(false);
     }
 }

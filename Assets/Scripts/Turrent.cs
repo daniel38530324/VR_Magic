@@ -10,6 +10,7 @@ public class Turrent : MonoBehaviour
     [SerializeField] GameObject enemyBullet;
     [SerializeField] float range = 30;
     [SerializeField] AttackType damageType = AttackType.FireBall;
+    [SerializeField] GameObject hint_UI;
 
     float timer = 0;
     bool trigger = false;
@@ -52,5 +53,17 @@ public class Turrent : MonoBehaviour
             Destroy(gameObject.transform.parent.gameObject);
             
         }
+        else if (other.CompareTag("FireBall") || other.CompareTag("WaterBall") || other.CompareTag("LightningBall"))
+        {
+            if (hint_UI.activeInHierarchy) { return; }
+            StartCoroutine(SetHint());
+        }
+    }
+
+    IEnumerator SetHint()
+    {
+        hint_UI.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        hint_UI.SetActive(false);
     }
 }
