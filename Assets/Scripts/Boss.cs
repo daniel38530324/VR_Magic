@@ -31,9 +31,7 @@ public class Boss : MonoBehaviour
     [SerializeField] GameObject[] slashShock_Effect;
     [Header("¦å¶q")]
     [SerializeField] Slider hpSlider;
-    [SerializeField] Text hpText;
-    [SerializeField] Image hpImage;
-    [SerializeField] Sprite[] hpSprites;
+    [SerializeField] Image hpImage, hpImage2;
 
     private BossState bossState;
     private Animator animator;
@@ -56,8 +54,8 @@ public class Boss : MonoBehaviour
         navMeshAgent.updateRotation = false;
 
         hpSlider.value = health;
-        hpImage.sprite = hpSprites[0];
-        hpText.color = new Color(0.9960785f, 0.3921569f, 0.1294118f);
+        hpImage.color = new Color(0.9433962f, 0.3823885f, 0.1379494f);
+        hpImage2.color = new Color(0.9433962f, 0.3823885f, 0.1379494f);
     }
 
     // Update is called once per frame
@@ -66,7 +64,6 @@ public class Boss : MonoBehaviour
         if (isChase)
         {
             IsInRange();
-            SetAttack();          
             SetNavMeshAgent();
             SetVerticalVelocity();
         }
@@ -79,6 +76,7 @@ public class Boss : MonoBehaviour
             }
         }
 
+        SetAttack();
         SetDamage();
         SetPowerUp();
         SetDie();
@@ -185,6 +183,12 @@ public class Boss : MonoBehaviour
         {
             if (GetNormalizedTime(animator, "Attack1") >= 1)
             {
+                if(!isChase)
+                {
+                    UpdateBossState(BossState.Idle);
+                    return;
+                }
+
                 if ((playerDistanceSqr <= playerChangeRange * playerChangeRange) && (playerDistanceSqr > 5 * 5))
                 {
                     UpdateBossState(BossState.Idle);
@@ -199,6 +203,12 @@ public class Boss : MonoBehaviour
         {
             if (GetNormalizedTime(animator, "Attack2") >= 1)
             {
+                if (!isChase)
+                {
+                    UpdateBossState(BossState.Idle);
+                    return;
+                }
+
                 if ((playerDistanceSqr <= playerChangeRange * playerChangeRange) && (playerDistanceSqr > playerAttackRange * playerAttackRange))
                 {
                     UpdateBossState(BossState.Idle);
@@ -218,6 +228,12 @@ public class Boss : MonoBehaviour
 
             if (GetNormalizedTime(animator, "Attack3") >= 1)
             {
+                if (!isChase)
+                {
+                    UpdateBossState(BossState.Idle);
+                    return;
+                }
+
                 if ((playerDistanceSqr <= playerChangeRange * playerChangeRange) && (playerDistanceSqr > playerAttackRange * playerAttackRange))
                 {
                     UpdateBossState(BossState.Idle);
@@ -232,6 +248,12 @@ public class Boss : MonoBehaviour
         {
             if (GetNormalizedTime(animator, "Attack4") >= 1)
             {
+                if (!isChase)
+                {
+                    UpdateBossState(BossState.Idle);
+                    return;
+                }
+
                 if ((playerDistanceSqr <= playerChangeRange * playerChangeRange) && (playerDistanceSqr > playerAttackRange * playerAttackRange))
                 {
                     UpdateBossState(BossState.Idle);
@@ -327,8 +349,8 @@ public class Boss : MonoBehaviour
                     damageType = AttackType.LightningBall;
                     aura_Effect[0].SetActive(false);
                     aura_Effect[1].SetActive(true);
-                    hpImage.sprite = hpSprites[1];
-                    hpText.color = new Color(0.4470589f, 0.9960785f, 0.9960785f);
+                    hpImage.color = new Color(0.4470589f, 0.9960785f, 0.9960785f);
+                    hpImage2.color = new Color(0.4470589f, 0.9960785f, 0.9960785f);
                 }
                 else if(health == 5)
                 {
@@ -339,8 +361,8 @@ public class Boss : MonoBehaviour
                     damageType = AttackType.FireBall;
                     aura_Effect[1].SetActive(false);
                     aura_Effect[2].SetActive(true);
-                    hpImage.sprite = hpSprites[2];
-                    hpText.color = new Color(0.9960785f, 0.4980392f, 0.9960785f);
+                    hpImage.color = new Color(0.9960785f, 0.4980392f, 0.9960785f);
+                    hpImage2.color = new Color(0.9960785f, 0.4980392f, 0.9960785f);
                 }
                 
             }
@@ -392,7 +414,7 @@ public class Boss : MonoBehaviour
         else
         {
             isChase = false;
-            if(bossState == BossState.PowerUp || bossState == BossState.Damage || bossState == BossState.Die) { return; }
+            if(bossState == BossState.PowerUp || bossState == BossState.Damage || bossState == BossState.Die || bossState == BossState.Attack || bossState == BossState.Attack2 || bossState == BossState.Attack3 || bossState == BossState.Attack4) { return; }
 
             UpdateBossState(BossState.Idle);
         }

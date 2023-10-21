@@ -18,9 +18,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject[] health_Image;
     [Header("¦å¶q")]
     [SerializeField] Slider hpSlider;
-    [SerializeField] Text hpText;
-    [SerializeField] Image hpImage;
-    [SerializeField] Sprite[] hpSprites;
+    [SerializeField] Image hpImage, hpImage2;
 
     public UnityEvent FailHandle;
 
@@ -35,9 +33,8 @@ public class PlayerController : MonoBehaviour
         if (hpSlider)
         {
             hpSlider.value = health;
-            hpImage.sprite = hpSprites[0];
-            hpText.color = new Color(0.8980393f, 0.8980393f, 0.8980393f);
-            hpImage.color = new Color(0.8490566f, 0.8490566f, 0.8490566f);
+            hpImage.color = new Color(0.9056604f, 0.9056604f, 0.9056604f);
+            hpImage2.color = new Color(0.9056604f, 0.9056604f, 0.9056604f);
         }
     }
 
@@ -66,9 +63,8 @@ public class PlayerController : MonoBehaviour
             state_Effect[2].SetActive(false);
             if(hpSlider)
             {
-                hpImage.sprite = hpSprites[1];
-                hpText.color = new Color(0.9960785f, 0.3921569f, 0.1294118f);
-                hpImage.color = new Color(1, 1, 1);
+                hpImage.color = new Color(1, 0.4531737f, 0.2122642f);
+                hpImage2.color = new Color(1, 0.4531737f, 0.2122642f);
             }
         }
         else if(other.CompareTag("Water"))
@@ -79,9 +75,8 @@ public class PlayerController : MonoBehaviour
             state_Effect[2].SetActive(false);
             if (hpSlider)
             {
-                hpImage.sprite = hpSprites[2];
-                hpText.color = new Color(0.4470589f, 0.9960785f, 0.9960785f);
-                hpImage.color = new Color(1, 1, 1);
+                hpImage.color = new Color(0.4470589f, 0.9960785f, 0.9960785f);
+                hpImage2.color = new Color(0.4470589f, 0.9960785f, 0.9960785f);
             }
         }
         else if(other.CompareTag("Lightning"))
@@ -92,9 +87,8 @@ public class PlayerController : MonoBehaviour
             state_Effect[2].SetActive(true);
             if (hpSlider)
             {
-                hpImage.sprite = hpSprites[3];
-                hpText.color = new Color(0.9960785f, 0.4980392f, 0.9960785f);
-                hpImage.color = new Color(1, 1, 1);
+                hpImage.color = new Color(0.9960785f, 0.4980392f, 0.9960785f);
+                hpImage2.color = new Color(0.9960785f, 0.4980392f, 0.9960785f);
             }
         }
 
