@@ -26,6 +26,7 @@ public class Enemy : MonoBehaviour
     private NavMeshAgent navMeshAgent;
     private bool isNavMeshAgent;
     private int health = 2;
+    private float playerDistanceSqr;
 
 
     // Start is called before the first frame update
@@ -81,17 +82,17 @@ public class Enemy : MonoBehaviour
 
     void IsInRange()
     {
-        float playerDistanceSqr = (player.transform.position - transform.position).sqrMagnitude;
+        playerDistanceSqr = (player.transform.position - transform.position).sqrMagnitude;
         if((playerDistanceSqr <= playerChangeRange * playerChangeRange) && (playerDistanceSqr > playerAttackRange * playerAttackRange))
         {
-            if(enemyState == EnemyState.Idle || enemyState == EnemyState.Attack || enemyState == EnemyState.Attack2)
+            if(enemyState == EnemyState.Idle)
             {
                 UpdateEnemyState(EnemyState.Chase);
             }
         }
         else if(playerDistanceSqr <= playerAttackRange * playerAttackRange)
         {
-            if (enemyState == EnemyState.Chase)
+            if (enemyState == EnemyState.Chase || enemyState == EnemyState.Idle)
             {
                 UpdateEnemyState(EnemyState.Attack);
             }
@@ -111,18 +112,28 @@ public class Enemy : MonoBehaviour
         {
             if (GetNormalizedTime(animator, "EnemyAttack1") >= 1)
             {
-                
-                 UpdateEnemyState(EnemyState.Attack2);
-               
+                if ((playerDistanceSqr <= playerChangeRange * playerChangeRange) && (playerDistanceSqr > playerAttackRange * playerAttackRange))
+                {
+                    UpdateEnemyState(EnemyState.Idle);
+                }
+                else if (playerDistanceSqr <= playerAttackRange * playerAttackRange)
+                {
+                    UpdateEnemyState(EnemyState.Attack2);
+                }
             }
         }
         else if(enemyState == EnemyState.Attack2)
         {
             if (GetNormalizedTime(animator, "EnemyAttack2") >= 1)
             {
-
-                UpdateEnemyState(EnemyState.Attack);
-
+                if ((playerDistanceSqr <= playerChangeRange * playerChangeRange) && (playerDistanceSqr > playerAttackRange * playerAttackRange))
+                {
+                    UpdateEnemyState(EnemyState.Idle);
+                }
+                else if (playerDistanceSqr <= playerAttackRange * playerAttackRange)
+                {
+                    UpdateEnemyState(EnemyState.Attack);
+                }
             }
         }
     }

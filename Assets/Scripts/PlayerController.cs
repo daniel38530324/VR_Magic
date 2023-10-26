@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Boss boss;
     [SerializeField] GameObject[] state_Effect;
     [SerializeField] GameObject[] health_Image;
+    [SerializeField] GameObject[] alives;
     [Header("¦å¶q")]
     [SerializeField] Slider hpSlider;
     [SerializeField] Image hpImage, hpImage2;
@@ -94,6 +95,11 @@ public class PlayerController : MonoBehaviour
 
         if(other.CompareTag("Pitfall"))
         {
+            alives[0].SetActive(false);
+            alives[1].SetActive(false);
+            alives[2].SetActive(false);
+            alives[3].SetActive(false);
+            alives[4].SetActive(false);
             FailHandle.Invoke();
         }
 
@@ -151,53 +157,41 @@ public class PlayerController : MonoBehaviour
 
     void CheckHealth()
     {
+        if (health <= 0) { return; }
+
         health--;
         StartCoroutine(Damage());
         AudioManager.Instance.PlaySound("Damage");
         hpSlider.value = health;
 
-        /*
-        if (health == 2)
-        {
-            health_Image[0].SetActive(false);
-        }
-        else if(health == 1)
-        {
-            health_Image[1].SetActive(false);
-        }*/
         if (health <= 0)
         {
+            alives[0].SetActive(false);
+            alives[1].SetActive(false);
+            alives[2].SetActive(false);
+            alives[3].SetActive(false);
+            alives[4].SetActive(false);
             FailHandle.Invoke();
         }
     }
 
     void CheckHealth_Boss()
     {
+        if (health <= 0) { return; }
+
         health--;
         StartCoroutine(Damage());
         AudioManager.Instance.PlaySound("Damage");
 
         hpSlider.value = health;
 
-        /*
-        if (health == 4)
-        {
-            health_Image[0].SetActive(false);
-        }
-        else if(health == 3)
-        {
-            health_Image[1].SetActive(false);
-        }
-        else if(health == 2)
-        {
-            health_Image[2].SetActive(false);
-        }
-        else if (health == 1)
-        {
-            health_Image[3].SetActive(false);
-        }*/
         if (health <= 0)
         {
+            alives[0].SetActive(false);
+            alives[1].SetActive(false);
+            alives[2].SetActive(false);
+            alives[3].SetActive(false);
+            alives[4].SetActive(false);
             FailHandle.Invoke();
         }
         
