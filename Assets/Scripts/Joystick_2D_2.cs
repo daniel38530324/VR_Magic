@@ -5,74 +5,43 @@ using UnityEngine.Events;
 
 public class Joystick_2D_2 : MonoBehaviour
 {
-    public Transform hand;
+    [SerializeField] Transform startPos, camera;
+    [SerializeField] CharacterController characterController;
+    [SerializeField] float speed = 2.5f;
 
-    [SerializeField] UnityEvent left, right, up, down, leftExit, rightExit, upExit, downExit;
+    private Vector3 startPosition, inputDirection, moveDirection;
+    bool isTrigger;
 
-    bool follow;
-    //Vector3 newPosition;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        /*
-        if (follow)
+        if (isTrigger)
         {
-            Vector3 newPosition = transform.position;
-            newPosition.x = hand.transform.position.x;
-            newPosition.y = hand.transform.position.y;
-            //newPosition.z = -15.1192f;
-            transform.position = hand.transform.position;
+            startPosition = transform.localPosition - startPos.localPosition;
+
+            inputDirection = new Vector3(startPosition.x, 0.0f, startPosition.z).normalized;
+
+            Vector3 cameraForward = camera.transform.forward;
+            cameraForward.y = 0;
+
+            Vector3 cameraRight = camera.transform.right;
+            cameraRight.y = 0;
+
+            moveDirection = cameraForward.normalized * inputDirection.z + cameraRight.normalized * inputDirection.x;
+            moveDirection.Normalize();
+
+            characterController.Move(moveDirection * speed * Time.deltaTime);
         }
         else
         {
-            transform.localPosition = Vector3.zero;
-        }
-        */
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("JoystickTrigger_Left_2D"))
-        {
-            left.Invoke();
-        }
-        if (other.CompareTag("JoystickTrigger_Right_2D"))
-        {
-            right.Invoke();
-        }
-        if (other.CompareTag("JoystickTrigger_Up_2D"))
-        {
-            up.Invoke();
-        }
-        if (other.CompareTag("JoystickTrigger_Down_2D"))
-        {
-            down.Invoke();
+            transform.localPosition = new Vector3(0, 0, 0);
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    public void OnTouch(bool touch)
     {
-        if (other.CompareTag("JoystickTrigger_Left_2D"))
-        {
-            leftExit.Invoke();
-        }
-        if (other.CompareTag("JoystickTrigger_Right_2D"))
-        {
-            rightExit.Invoke();
-        }
-        if (other.CompareTag("JoystickTrigger_Up_2D"))
-        {
-            upExit.Invoke();
-        }
-        if (other.CompareTag("JoystickTrigger_Down_2D"))
-        {
-            downExit.Invoke();
-        }
+        if (touch)
+            isTrigger = true;
+        else
+            isTrigger = false;
     }
 }

@@ -15,18 +15,13 @@ public class FollowRotation : MonoBehaviour
     private void Update()
     {
 
-
-        Vector3 lookDirection = objectB.forward;
-
-
         Quaternion targetRotation = objectB.rotation;
 
-
+        
         if (objectB.rotation.eulerAngles.x > 315f || objectB.rotation.eulerAngles.x < 225f)
         {
             targetRotation = Quaternion.Euler(objectA.eulerAngles.x, targetRotation.eulerAngles.y, targetRotation.eulerAngles.z);
         }
-
 
         objectA.rotation = targetRotation;
     }

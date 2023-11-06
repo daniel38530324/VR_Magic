@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     public float repelDistance = -3;
 
-    [SerializeField] Attack attack;
+    public Attack attack;
     [SerializeField] Transform resurrectionPoint;
     [SerializeField] GameObject damage_Image;
     [SerializeField] int health = 3;
@@ -100,6 +100,10 @@ public class PlayerController : MonoBehaviour
             alives[2].SetActive(false);
             alives[3].SetActive(false);
             alives[4].SetActive(false);
+            alives[5].SetActive(false);
+            state_Effect[0].SetActive(false);
+            state_Effect[1].SetActive(false);
+            state_Effect[2].SetActive(false);
             FailHandle.Invoke();
         }
 
@@ -171,6 +175,10 @@ public class PlayerController : MonoBehaviour
             alives[2].SetActive(false);
             alives[3].SetActive(false);
             alives[4].SetActive(false);
+            alives[5].SetActive(false);
+            state_Effect[0].SetActive(false);
+            state_Effect[1].SetActive(false);
+            state_Effect[2].SetActive(false);
             FailHandle.Invoke();
         }
     }
@@ -192,6 +200,10 @@ public class PlayerController : MonoBehaviour
             alives[2].SetActive(false);
             alives[3].SetActive(false);
             alives[4].SetActive(false);
+            alives[5].SetActive(false);
+            state_Effect[0].SetActive(false);
+            state_Effect[1].SetActive(false);
+            state_Effect[2].SetActive(false);
             FailHandle.Invoke();
         }
         

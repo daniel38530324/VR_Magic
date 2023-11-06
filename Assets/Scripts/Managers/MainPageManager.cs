@@ -7,6 +7,7 @@ public class MainPageManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        AudioManager.Instance.PlayMusic("Main");   
+        AudioManager.Instance.PlayMusic("Main");
+        Level1Manager.currentState = 0;
     }
 }

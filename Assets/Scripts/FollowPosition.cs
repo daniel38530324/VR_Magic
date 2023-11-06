@@ -20,6 +20,7 @@ public class FollowPosition : MonoBehaviour
     {
         if(other.CompareTag("Finger"))
         {
+            target.GetComponent<Joystick_2D_2>().OnTouch(true);
             Vector3 closestPoint = other.ClosestPoint(transform.position);
             target.position = closestPoint;
         }
@@ -29,7 +30,8 @@ public class FollowPosition : MonoBehaviour
     {
         if (other.CompareTag("Finger"))
         {
-            target.localPosition = Vector3.zero;
+            target.GetComponent<Joystick_2D_2>().OnTouch(false);
+            //target.localPosition = Vector3.zero;
         }
     }
 }
