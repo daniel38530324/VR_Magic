@@ -190,6 +190,10 @@ public class OVRManager : MonoBehaviour, OVRMixedRealityCaptureConfiguration
     /// <summary>
     /// Gets a reference to the active display.
     /// </summary>
+    public void RecenterPlayer()
+    {
+        display.RecenterPose();
+    }
     public static OVRDisplay display { get; private set; }
 
     /// <summary>

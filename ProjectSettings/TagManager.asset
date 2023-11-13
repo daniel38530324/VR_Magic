@@ -32,6 +32,7 @@ TagManager:
   - Level3
   - Finger
   - NoFinger
+  - BossLevelCollider
   layers:
   - Default
   - TransparentFX

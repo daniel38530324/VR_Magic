@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cfe1df7ed391a24fbe2a2d275e81b06, type: 3}
   m_Name: Test
   m_EditorClassIdentifier: 
-  _shapeName: 
+  _shapeName: Test
   _thumbFeatureConfigs:
     _value: []
   _indexFeatureConfigs:
-    _value: []
+    _value:
+    - _mode: 1
+      _feature: 0
+      _state: 2
   _middleFeatureConfigs:
     _value: []
   _ringFeatureConfigs:

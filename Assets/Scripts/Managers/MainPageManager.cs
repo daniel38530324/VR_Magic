@@ -9,5 +9,6 @@ public class MainPageManager : MonoBehaviour
     {
         AudioManager.Instance.PlayMusic("Main");
         Level1Manager.currentState = 0;
+        PlayerController.bossChase = false;
     }
 }

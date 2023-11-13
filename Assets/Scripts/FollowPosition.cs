@@ -5,21 +5,24 @@ using UnityEngine;
 public class FollowPosition : MonoBehaviour
 {
     [SerializeField] Transform target;
+    bool follow = true;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
+
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if(other.CompareTag("Finger"))
+        if (other.CompareTag("Finger"))
         {
+            if (!follow) { return; }
             target.GetComponent<Joystick_2D_2>().OnTouch(true);
             Vector3 closestPoint = other.ClosestPoint(transform.position);
             target.position = closestPoint;
@@ -33,5 +36,10 @@ public class FollowPosition : MonoBehaviour
             target.GetComponent<Joystick_2D_2>().OnTouch(false);
             //target.localPosition = Vector3.zero;
         }
+    }
+
+    public void SetFollow(bool state)
+    {
+        follow = state;
     }
 }

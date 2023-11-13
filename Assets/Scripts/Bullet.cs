@@ -9,6 +9,8 @@ public class Bullet : MonoBehaviour
     [SerializeField] float speed = -5;
     [SerializeField] GameObject explosion;
     float timer = 0;
+
+    bool bossLevelState = true;
     
     // Start is called before the first frame update
     void Start()
@@ -52,6 +54,22 @@ public class Bullet : MonoBehaviour
 
         if (other.gameObject.CompareTag("Enemy"))
         {
+            AudioManager.Instance.PlaySound("Boom");
+            Vector3 closestPoint = other.ClosestPointOnBounds(transform.position);
+            Instantiate(explosion, closestPoint, Quaternion.identity);
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (!shoot) { return; }
+        if (PlayerController.bossChase) { return; }
+
+        if (other.gameObject.CompareTag("BossLevelCollider"))
+        {
+            if (!bossLevelState) { return; }
+            bossLevelState = false;
             AudioManager.Instance.PlaySound("Boom");
             Vector3 closestPoint = other.ClosestPointOnBounds(transform.position);
             Instantiate(explosion, closestPoint, Quaternion.identity);

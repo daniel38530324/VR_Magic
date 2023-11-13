@@ -40,6 +40,7 @@ public class TeachingManager : MonoBehaviour
     private void Start()
     {
         AudioManager.Instance.PlayMusic("Main");
+        
     }
 
     private void Update()

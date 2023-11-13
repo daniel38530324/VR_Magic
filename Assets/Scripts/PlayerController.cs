@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    public static bool bossChase;
     public float repelDistance = -3;
 
     public Attack attack;
@@ -28,6 +29,11 @@ public class PlayerController : MonoBehaviour
     Vector3 repelDirection;
     private bool repel;
 
+    private void Awake()
+    {
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +43,7 @@ public class PlayerController : MonoBehaviour
             hpImage.color = new Color(0.9056604f, 0.9056604f, 0.9056604f);
             hpImage2.color = new Color(0.9056604f, 0.9056604f, 0.9056604f);
         }
+        bossChase = false;
     }
 
     // Update is called once per frame
@@ -132,6 +139,7 @@ public class PlayerController : MonoBehaviour
 
         if (other.CompareTag("BossPlace"))
         {
+            bossChase = true;
             boss.SetChase(true);       
         }
 
@@ -155,6 +163,7 @@ public class PlayerController : MonoBehaviour
     {
         if(other.CompareTag("BossPlace"))
         {
+            bossChase = false;
             boss.SetChase(false);
         }
     }

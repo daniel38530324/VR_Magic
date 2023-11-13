@@ -69,7 +69,7 @@ public class Attack : MonoBehaviour
 
     IEnumerator ShootHandle()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.35f);
         stay = false;
         bullet.GetComponent<Bullet>().shoot = true;
     }
