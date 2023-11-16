@@ -14,15 +14,16 @@ public class FollowRotation : MonoBehaviour
     }
     private void Update()
     {
-
+        
         Quaternion targetRotation = objectB.rotation;
 
         
         if (objectB.rotation.eulerAngles.x > 315f || objectB.rotation.eulerAngles.x < 225f)
         {
-            targetRotation = Quaternion.Euler(objectA.eulerAngles.x, targetRotation.eulerAngles.y, targetRotation.eulerAngles.z);
+            targetRotation = Quaternion.Euler(315f, targetRotation.eulerAngles.y, targetRotation.eulerAngles.z);
         }
 
         objectA.rotation = targetRotation;
+        
     }
 }
